@@ -1,0 +1,143 @@
+
+import java.util.Scanner;
+
+//this program is an update from CalculateDataUsage
+//the program accepts your phone provider, phone model
+//the program accepts contracted monthly minutes and actual used monthly minutes
+//the program accepts contracted monthly data and actual used monthly data
+//the final result of the program is to print your phone information and your remaining plan balance
+
+public class CalcDataUse_Update {
+
+		public static void main(String args[]) {
+			Scanner in = new Scanner(System.in);
+			String quit = null;
+
+//upgraded to while loop so the program will execute until asked to stop			
+			while (!"exit".equals(quit)) {
+//upgraded to try statement to catch errors			
+				try {
+//added methods to clean up main					
+					String phoneCarrier = getPhoneCarrier(in);
+					String phoneModel = getPhoneModel(in);
+					int monthlyMinutes = getContractedMinutes(in);
+					int monthlyUsedMinutes = getUsedMinutes(in);
+					float monthlyDataLimit = getMonthlyDataLimit(in);
+					float monthlyUsedData = getMonthlyDataUsed(in);
+					int actualMinutes = getActualMinutes(monthlyUsedMinutes, monthlyMinutes);
+					float actualData = getActualData(monthlyUsedData, monthlyDataLimit);
+					printPhoneInfo(phoneCarrier, phoneModel);
+					UsedPlanCalc(actualData, actualMinutes);
+					
+				} catch (Exception excpt) {
+					System.out.println(excpt.getMessage());
+				}
+				
+				in.nextLine();
+				System.out.println("\nEnter any key to continue. Enter 'exit' to quit.");
+				quit = in.nextLine();
+			}
+//added goodbye message			
+			System.out.println("Goodbye.");
+		}
+
+		
+		
+//method to print the phone carrier and phone model
+		public static void printPhoneInfo(String phoneCarrier, String phoneModel) {
+			System.out.println("\nYour phone provider is " + phoneCarrier);
+			System.out.println("Your phone model is " + phoneModel);
+		}
+
+//method to print the amount of data and minutes that you have leftover
+		public static void UsedPlanCalc(float actualData, int actualMinutes) {
+			System.out.println("You have remaining " + actualMinutes + " minutes.");
+			System.out.println("You have remaining " + actualData + " of data.");
+		}
+
+//method to get contracted monthly data limit
+	public static float getMonthlyDataLimit(Scanner in) throws Exception {
+		System.out.println("\nEnter your planned data amount: ");
+		float monthlyDataLimit = in.nextFloat();
+		
+		if (monthlyDataLimit == -1) {
+			throw new Exception("Planned monthly data limit is invalid.");
+		}
+		System.out.println("You entered: " + monthlyDataLimit);
+		return monthlyDataLimit;
+	}
+	
+//method to get used monthly data limit	
+	public static float getMonthlyDataUsed(Scanner in) throws Exception {
+		System.out.println("\nEnter your used data amount: ");
+		float monthlyUsedData = in.nextFloat();
+		
+		if (monthlyUsedData == -1) {
+			throw new Exception("Used monthly data limit is invalid.");
+		}
+		System.out.println("You entered: " + monthlyUsedData);
+		return monthlyUsedData;
+	}
+	
+//calculation method for remaining monthly data limit
+	public static float getActualData(float monthlyUsedData, float monthlyDataLimit) {
+		float actualData = monthlyDataLimit - monthlyUsedData;
+		return actualData;
+		}
+	
+//method to get phone carrier
+	public static String getPhoneCarrier(Scanner in) throws Exception {
+		System.out.println("Enter your phone provider: ");
+		String phoneCarrier = in.nextLine();
+		
+		if (phoneCarrier.isEmpty()) {
+			throw new Exception("You left the phone carrier blank.\n");
+		}
+		System.out.println("You entered: " + phoneCarrier);
+		return phoneCarrier;
+	}
+
+//method to get phone model
+	public static String getPhoneModel(Scanner in) throws Exception {
+		System.out.println("\nEnter your phone model: ");
+		String phoneModel = in.nextLine();
+		
+		if (phoneModel.isEmpty()) {
+			throw new Exception("You left the phone model blank.\n");
+		}
+		System.out.println("You entered: " + phoneModel);
+		return phoneModel;
+	}
+
+//method to get contracted minutes	
+	public static int getContractedMinutes(Scanner in) throws Exception {
+		System.out.println("\nEnter your planned monthly minutes: ");
+		int monthlyMinutes = in.nextInt();
+		in.nextLine();
+		
+		if (monthlyMinutes == -1) {
+			throw new Exception("Monthly planned minutes entry is invalid.\n");
+		}
+		System.out.println("You entered: " + monthlyMinutes);
+		return monthlyMinutes;
+	}
+	
+//method to get used minutes	
+	public static int getUsedMinutes(Scanner in) throws Exception {
+		System.out.println("\nEnter your used monthly minutes: ");
+		int monthlyUsedMinutes = in.nextInt();
+		in.nextLine();
+		
+		if (monthlyUsedMinutes == -1) {
+			throw new Exception("Monthly used minutes entry is invalid.\n");
+		}
+		System.out.println("You entered: " + monthlyUsedMinutes);
+		return monthlyUsedMinutes;
+	}
+	
+//calculation method to get minutes used	
+	public static int getActualMinutes(int monthlyUsedMinutes, int monthlyMinutes) {
+		int actualMinutes = monthlyMinutes - monthlyUsedMinutes;
+		return actualMinutes;
+	}
+}
