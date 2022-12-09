@@ -1,0 +1,154 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Scanner;
+
+//CORRECTION ADDED sort by name added and printed to console
+
+//this program accepts 10 roll numbers, names, and addresses
+//the program will sort by name and roll number in ascending order
+public class Student {
+	
+//data types roll number, name, and address	
+	private int rollno;
+	private String name;
+	private String address;
+
+//constructor class	
+	public Student (int rollno, String name, String address) {
+		this.rollno = rollno;
+		this.name = name;
+		this.address = address;
+	}
+
+//add students to a list	
+	public void addStudent(Student students) {
+		
+		students.rollno = rollno;
+		students.name = name;
+		students.address = address;
+	}
+
+//get roll number from scanner in	
+	public static int getRollNo(Scanner in) throws Exception {
+		int rollno = in.nextInt();
+		in.nextLine();
+		
+		if (rollno == 0) {
+			throw new Exception ("Roll number cannot be 0.");
+		}
+		return rollno;
+	}
+	
+//get name from scanner in	
+	public static String getName(Scanner in) throws Exception{
+		String name = in.nextLine();
+		
+		if (name == null) {
+			throw new Exception ("Name cannot be null.");
+		}
+		return name;
+	}
+	
+//get address from scanner in	
+	public static String getAddress(Scanner in) throws Exception{
+		String address = in.nextLine();
+		
+		if (address == null) {
+			throw new Exception ("Address cannot be null.");
+		}
+		return address;
+	}
+	
+//toString so the roll number, name, and address will print when desired	
+	public String toString() {
+		return "Roll number: " + rollno + " | Name: " + name + " | Address: " + address;
+	}
+	
+//class to sort roll by ascending order	
+	static class RollSort implements Comparator <Student> {
+
+		public int compare (Student a, Student b) {
+			return a.rollno - b.rollno;
+		}
+	}
+	
+//class to sort names by ascending order	
+	static class NameSort implements Comparator <Student> {
+		public int compare (Student a, Student b) {
+			return a.name.compareTo(b.name);
+		}
+	}
+	
+
+//selection sort method 	
+	public static void SelectionSortByRoll (ArrayList<Student> students) {
+		RollSort rollsort = new RollSort();
+		int j = students.size();
+		
+		for (int i = 0; i < j-1; i++) {
+			int min = i;
+				for (int n = i + 1; n < j; n++)
+					if (rollsort.compare(students.get(n), students.get(min)) < 0)
+						min = n;
+						Student temp = students.get(min);
+						students.set(min, students.get(i));
+						students.set(i, temp);
+		}
+	}
+	
+	public static void SelectionSortByName (ArrayList<Student> students) {
+		NameSort namesort = new NameSort();
+		int j = students.size();
+		
+		for (int i = 0; i < j-1; i++) {
+			int min = i;
+				for (int n = i + 1; n < j; n++)
+					if (namesort.compare(students.get(n), students.get(min)) < 0)
+						min = n;
+						Student temp = students.get(min);
+						students.set(min, students.get(i));
+						students.set(i, temp);
+		}
+	}
+
+//main to run the program	
+	public static void main (String[] args) throws IOException {
+		Scanner in = new Scanner (System.in);
+	
+		ArrayList<Student> list = new ArrayList<>();
+		
+//enter ten students
+		System.out.println("Entering 10 students...");
+		for (int i = 0; i < 10; i++) {
+			
+			try {
+			System.out.println("Enter student #" + (i + 1) + " roll number:");
+			int rollno = getRollNo(in);
+			System.out.println("Enter student #" + (i + 1) + " name:");
+			String name = getName(in);
+			System.out.println("Enter student #" + (i + 1) + " address:");
+			String address = getAddress(in);
+			
+			Student students = new Student(rollno, name, address);
+			list.add(students);
+			} catch (Exception excpt) {
+				System.out.println(excpt.getMessage());
+			}
+		
+		}
+
+//sort the list and print		
+		SelectionSortByRoll(list);
+		System.out.println("\nThe sorted students by roll are: ");
+		for (Student s : list) {
+			System.out.println(s);
+		}
+//CORRECTION added sort by name		
+		SelectionSortByName(list);
+		System.out.println("\nThe sorted students by name are: ");
+		for (Student s : list) {
+			System.out.println(s);
+		}
+	}
+	}
