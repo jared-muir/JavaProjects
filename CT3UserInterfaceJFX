@@ -1,0 +1,165 @@
+
+import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javafx.scene.control.Button;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+
+//PROBLEM: could not find 'log.txt' because it was under 'Log.txt'
+//FIXED: changed output stream to 'log.txt' so the file can be found
+
+public class CT3UserInterfaceJFX extends Application{
+	
+	@Override
+	public void start(Stage application) throws Exception{     
+	    
+	//menu item to be displayed
+		application.setTitle("Menu Demonstration");
+		MenuItem mitem1 = new MenuItem ("Date and Time");
+		MenuItem mitem2 = new MenuItem ("Print to File");
+		MenuItem mitem3 = new MenuItem ("Change to Green");
+		MenuItem mitem4 = new MenuItem ("Exit");
+		
+	//print date and time through clicking menu item one
+		mitem1.setOnAction((EventHandler<ActionEvent>) new
+	
+	EventHandler<ActionEvent>() {
+		
+	@Override
+		public void handle(ActionEvent event) {
+		
+	//set time and date	
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now();
+		application.setTitle("Date and Time");
+        MenuButton menuButton = new MenuButton("Options", null, mitem1, mitem2, mitem3, mitem4);
+		
+       //create new scene for option one
+        StackPane s = new StackPane();
+		
+     //create textfield and scene size   
+        TextField DateTime = new TextField();
+		Scene scene = new Scene(s, 400, 300);
+	
+	//add time to textfield	
+		DateTime.setText("The time is: " + dtf.format(now));
+		
+	//add textfield and menu options to the scene	
+		s.getChildren().add(DateTime);
+		s.getChildren().add(menuButton);
+        s.setAlignment(DateTime, Pos.CENTER);
+        s.setAlignment(menuButton, Pos.TOP_LEFT);
+        
+       //display the created scene
+        application.setScene(scene);
+        application.show();  
+		}});
+		
+	//menu item two writing text box contents to log.txt file
+		mitem2.setOnAction(event -> {
+	//text field for menu option two
+	// set title for the stage
+	        application.setTitle("Print to File");
+	       
+	//add menu options to the scene        
+	        MenuButton menuButton = new MenuButton("Options", null, mitem1, mitem2, mitem3, mitem4);
+			menuButton.setAlignment(Pos.TOP_LEFT);
+	      // create a textfield
+	        TextField Option2 = new TextField();
+	      // create a stack pane
+	        StackPane r = new StackPane();
+	      // add textfield and menu buttons to the new scene
+	        r.getChildren().add(Option2);
+	        r.getChildren().add(menuButton);
+	        r.setAlignment(Option2, Pos.CENTER);
+	        r.setAlignment(menuButton, Pos.TOP_LEFT);
+	        // create a scene
+	        Scene sc = new Scene(r, 400, 300);
+	  
+	      // set the scene and display it
+	        application.setScene(sc);
+	        application.show();
+	        
+	        Option2.setOnAction(e -> {
+	        	try {
+		//PROBLEM: could not find 'log.txt' because it was under 'Log.txt'
+		//FIXED: changed output stream to 'log.txt' so the file can be found
+	       //get and print text to log.txt when "ENTER" on keyboard is pressed 		
+	        		String userInput = Option2.getText();
+	    			FileOutputStream file = new FileOutputStream("log.txt");
+	    			PrintWriter out = new PrintWriter(file);
+	    			out.println(userInput);
+	    			out.close();
+	    		}
+	    		catch(Exception excpt) {
+	    			Option2.setText("Error");
+	    		}
+	            });
+	        });
+		
+		mitem3.setOnAction(event -> {
+			
+		//set title and menu bar	
+			application.setTitle("Color Change");
+			MenuButton menuButton = new MenuButton("Options", null, mitem1, mitem2, mitem3, mitem4);
+		//create new scene and panel to add color to	
+			StackPane q = new StackPane();
+			Scene scene = new Scene(q, 400, 300);
+		//setting background color to green	
+			BackgroundFill background_fill = new BackgroundFill(Color.GREEN, 
+                    CornerRadii.EMPTY, Insets.EMPTY);
+			Background background = new Background(background_fill);	  
+         // adding menu and chosen background to the scene on the application stage
+	        q.getChildren().add(menuButton);
+	        q.setAlignment(menuButton, Pos.TOP_LEFT);
+            q.setBackground(background);
+		//displaying the new scene	
+            application.setScene(scene);
+            application.show();
+			});
+		
+	//exit when selecting option four	
+		mitem4.setOnAction(event -> {
+			Platform.exit();
+			});
+		
+	//first scene to be displayed before an option is chosen	
+		MenuButton menuButton = new MenuButton("Options", null, mitem1, mitem2, mitem3, mitem4);
+		HBox hbox = new HBox(menuButton);
+		Scene s = new Scene(hbox, 400, 300);
+		application.setScene(s);
+		application.show();
+		}
+//start the program	
+	public static void main(String[] args) {
+		Application.launch(args);
+		}
+		}	
