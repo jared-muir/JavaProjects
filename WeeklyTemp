@@ -1,0 +1,87 @@
+package optionTwo;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+//the purpose of this program is to get the day of the week and print the temp for that day
+//the program computes and prints the weekly average of temperature
+//if the user enters the keyword 'week' then the program will print temperature for the entire week
+
+public class WeekyTemp_Upgrade {
+	
+	static int sum = 0;
+	
+	public static void main(String[] args) {
+	Scanner in = new Scanner(System.in);
+	
+//array list for days of the week
+	ArrayList<String> dayOfWeek = new ArrayList<>();
+	dayOfWeek.add("Monday");
+	dayOfWeek.add("Tuesday");
+	dayOfWeek.add("Wednesday");
+	dayOfWeek.add("Thursday");
+	dayOfWeek.add("Friday");
+	dayOfWeek.add("Saturday");
+	dayOfWeek.add("Sunday");
+
+//array list for the temperatures. parallel to days of the week through index	
+	ArrayList<Integer> avgTemp = new ArrayList<>();
+	avgTemp.add(99);
+	avgTemp.add(100);
+	avgTemp.add(82);
+	avgTemp.add(79);
+	avgTemp.add(90);
+	avgTemp.add(78);
+	avgTemp.add(89);
+	
+	System.out.println("Enter 'week' for average temperatures this week.");
+	System.out.println("OR");
+	System.out.println("Enter day (example: 'Monday') for average temperature of the selected day.");
+	String choice = in.nextLine();
+	
+	while (!"exit".equalsIgnoreCase(choice)) {
+		
+//prints the entire week if the user enters week	
+		if (choice.equalsIgnoreCase("week")) {
+			for (int i = 0; i < dayOfWeek.size(); i++) {
+				for (i = 0; i < avgTemp.size(); i++) {
+					System.out.println("Daily average temperature for " + dayOfWeek.get(i) + " is " + avgTemp.get(i));
+					sum += avgTemp.get(i);
+						if (i == 6) {
+							int weeklyAverage = sum/7;
+							System.out.println("Weekly average temperature is " + weeklyAverage);
+						}
+				}
+			}
+		}
+		
+//prints the day of the week depending on what the user enters		
+		else if (choice.equalsIgnoreCase("Monday")) {
+			System.out.println("\nDaily average temperature for " + dayOfWeek.get(0) + " is " + avgTemp.get(0));
+		}
+		else if (choice.equalsIgnoreCase("Tuesday")) {
+			System.out.println("\nDaily average temperature for " + dayOfWeek.get(1) + " is " + avgTemp.get(1));
+		}
+		else if (choice.equalsIgnoreCase("Wednesday")) {
+			System.out.println("\nDaily average temperature for " + dayOfWeek.get(2) + " is " + avgTemp.get(2));
+		}
+		else if (choice.equalsIgnoreCase("Thursday")) {
+			System.out.println("\nDaily average temperature for " + dayOfWeek.get(3) + " is " + avgTemp.get(3));
+		}
+		else if (choice.equalsIgnoreCase("Friday")) {
+			System.out.println("\nDaily average temperature for " + dayOfWeek.get(4) + " is " + avgTemp.get(4));
+		}
+		else if (choice.equalsIgnoreCase("Saturday")) {
+			System.out.println("\nDaily average temperature for " + dayOfWeek.get(5) + " is " + avgTemp.get(5));
+		}
+		else if (choice.equalsIgnoreCase("Sunday")) {
+			System.out.println("\nDaily average temperature for " + dayOfWeek.get(6) + " is " + avgTemp.get(6));
+		}
+		System.out.println("\nEnter 'week' for average temperatures this week.");
+		System.out.println("OR");
+		System.out.println("Enter day (example: 'Monday') for average temperature of the selected day.");
+		System.out.println("Enter 'exit' to quit program.");
+		choice = in.nextLine();
+	}
+	System.out.println("Goodbye.");
+	}
+}
