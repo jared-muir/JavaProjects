@@ -1,0 +1,61 @@
+
+import java.util.Scanner;
+
+
+//this program accepts your weekly income
+//when income is input the program will calculate your tax withholding
+//the program will print to console your withholding amount and your tax rate
+public class CalcAvgWithholding_Update {
+
+//final tax rate	
+	private static final double taxRate1 = .10;
+	private static final double taxRate2 = .15;
+	private static final double taxRate3 = .20;
+	private static final double taxRate4 = .30;
+	private static final String userPrompt = "This program calculates your weekly tax.";
+	private static final String userExit = "\nEnter 1 to continue. Enter 0 to exit.";
+
+//main part of program. accepts user input for weekly income, prints to console your withholding	
+	public static void main (String args[]) {
+		Scanner in = new Scanner(System.in);
+		System.out.println(userPrompt + " " + userExit);
+		int choice = in.nextInt();
+		decisionProcess(choice);	
+	}
+
+//method to decide to exit or enter weekly income	
+	private static void decisionProcess(int choice) {
+		if (choice == 1) {
+			Scanner in = new Scanner(System.in);
+			System.out.println("\nPlease enter your weekly income: ");
+			double weeklyIncome = in.nextDouble();
+			determineTaxWithholding(weeklyIncome);
+			System.out.println(userExit);
+			choice = in.nextInt();
+			decisionProcess(choice);
+		}
+		else if (choice == 0) {
+			System.out.println("Goodbye.");
+			System.exit(0);
+		}
+	}
+	
+//method to determine the amount of tax withholding you will receive	
+	private static void determineTaxWithholding (double weeklyIncome) {
+		if (weeklyIncome < 500) {
+			double taxOutcome = weeklyIncome * taxRate1;
+			System.out.println("\nYour tax rate is: " + (taxRate1 * 100) + "%");
+			System.out.println("Your tax withholding this week is: " + taxOutcome);
+		}else if ((weeklyIncome >= 500) && (weeklyIncome < 1500)) {
+			double taxOutcome = weeklyIncome * taxRate2;
+			System.out.println("\nYour tax rate is: " + (taxRate2 * 100) + "%");
+			System.out.println("Your tax withholding this week is: " + taxOutcome);
+		}else if ((weeklyIncome >= 1500) && (weeklyIncome < 2500)) {
+			double taxOutcome = weeklyIncome * taxRate3;
+			System.out.println("\nYour tax rate is: " + (taxRate3 * 100) + "%");
+			System.out.println("Your tax withholding this week is: " + taxOutcome);
+		}else if (weeklyIncome >= 2500) {
+			double taxOutcome = weeklyIncome * taxRate4;
+			System.out.println("\nYour tax rate is: " + (taxRate4 * 100) + "%");
+			System.out.println("Your tax withholding this week is: " + taxOutcome);
+		}}}
