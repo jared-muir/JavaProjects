@@ -1,0 +1,143 @@
+package optionOne;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Scanner;
+
+//this program accepts GPA, names, and addresses
+//the program will sort by name in ascending order
+//the program will print inputed information to a file named SortedStudentData.txt
+public class StudentData implements Comparable <StudentData> {
+	
+//gpa, name, and address made private in StudentData	
+	private double gpa;
+	private String name;
+	private String address;
+
+//constructor class	
+	public StudentData (double gpa, String name, String address) {
+		this.gpa = gpa;
+		this.name = name;
+		this.address = address;
+	}
+
+//add students to a list	
+	public void addStudent(StudentData students) {
+		
+		students.gpa = gpa;
+		students.name = name;
+		students.address = address;
+	}
+
+//get GPA from scanner in	
+	public static double getGPA(Scanner in) throws Exception {
+		double gpa = in.nextDouble();
+		in.nextLine();
+		
+		if (gpa < 0 && gpa > 4) {
+			throw new Exception ("GPA cannot be less than 0 or greater than 4.");
+		}
+		return gpa;
+	}
+	
+//get name
+	public String getName(){
+		return name;
+	}
+	
+//get address
+	public String getAddress(){
+		return address;
+	}
+//set name	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+//set GPA	
+	public void setGPA(double gpa) {
+		this.gpa = gpa;
+	}
+	
+//set address	
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+//toString so the roll number, name, and address will print when desired	
+	public String toString() {
+		return "\nName: " + name + " | GPA: " + gpa + " | Address: " + address;
+	}
+	
+//compare last entry to student name list	
+	@Override
+		public int compareTo(StudentData students) {
+			return getName().compareTo(students.getName());
+		}
+
+//main to run the program	
+	public static void main (String[] args) throws IOException {
+		
+		Scanner in = new Scanner (System.in);
+		String exit = null;
+//linked list to store student information		
+		LinkedList<StudentData> list = new LinkedList<StudentData>();
+		
+//runs program until exit is typed	
+		while(!"exit".equals(exit)) {
+//enter students
+			System.out.println("Type the number of students you are adding\nThen press 'ENTER'...");	
+			int amountStudents = in.nextInt();
+			for (int i = 0; i < amountStudents; i++) {
+			
+//validation for GPA
+//Entry for student GPA, name, and address
+			try {
+				System.out.println("Enter student #" + (i + 1) + " GPA:");
+				double gpa = getGPA(in);
+				System.out.println("Enter student #" + (i + 1) + " name:");
+				String name = in.nextLine();
+				System.out.println("Enter student #" + (i + 1) + " address:");
+				String address = in.nextLine();
+			
+				StudentData students = new StudentData(gpa, name, address);
+				list.add(students);
+			} catch (Exception excpt) {
+				System.out.println(excpt.getMessage());
+			}
+		}
+	
+//using Java library to sort the linked list		
+		Collections.sort(list);
+//using iterator method to iterate through the nodes of the linked list		
+		Iterator<StudentData> li = list.iterator();		
+		
+//method to print sorted information to a file named SortedStudentData.txt
+//includes validation through try/catch
+		try {
+			FileWriter file = new FileWriter("SortedStudentData.txt");
+				while (li.hasNext()) {
+					file.write(li.next().toString());
+				}
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//message prompt to that students were added		
+		System.out.println("Student(s) added...\n");
+		
+//message to continue or to exit		
+		System.out.println("Type 'exit' to QUIT then press 'ENTER'...\n"
+				+ "Or type any key to CONTINUE then press 'ENTER'...");
+		exit = in.nextLine();
+	}
+//message prompt of goodbye once exit is typed		
+	System.out.println("Goodbye.");	
+	}	
+}
+		
+		
