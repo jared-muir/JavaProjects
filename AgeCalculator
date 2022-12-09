@@ -1,0 +1,76 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Period;
+
+//PROBLEM: birth date previously returned incorrect birth year depending on entry
+//FIXED: created program to enter birth year as proper year until birth day then the year turns
+
+//name of base class
+public class AgeCalculator extends JFrame implements ActionListener{
+
+    TextField textField;
+    JLabel label;
+
+  //initializing the interface  
+    public AgeCalculator(){
+    	initializeUserInterface();
+    }
+
+    private void initializeUserInterface() {
+      //set information for JFrame including title, size, and close when X is clicked 
+    	setTitle("Age Calculator");
+        setSize(300, 200);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+      //button to click for GUI interface
+        JButton calculateButton = new JButton("Calculate");
+        calculateButton.addActionListener(this);
+       
+      //text field to accept birth year with message prompt  
+        textField = new TextField("Enter date of birth in YYYY-MM-DD format: ", 10);
+        label = new JLabel("");
+       
+      // creating JPanel to organize and display the output box, input, and button 
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.add(textField);
+        panel.add(Box.createVerticalStrut(25));
+        panel.add(calculateButton);
+        panel.add(Box.createVerticalStrut(25));
+        panel.add(label);
+        getContentPane().add(panel, BorderLayout.CENTER);
+        getContentPane().setSize(300, 200);
+    }
+    
+//PROBLEM: birth date previously returned incorrect birth year depending on entry
+//FIXED: created program to enter birth year as proper year until birth day then the year turns   
+    public static int ageEquation(LocalDate birthYear) {
+    	LocalDate cur = LocalDate.now();
+    	if ((birthYear != null) && (cur != null)) 
+    	{
+    		return Period.between(birthYear, cur).getYears();
+    	}
+    	else {
+    		return 0;
+    	}
+    }
+
+    //main to run code creating instance of AgeCalculator
+    public static void main(String[] args){
+        AgeCalculator c = new AgeCalculator();
+        c.setVisible(true);
+    }
+
+   //action event to calculate age based on birth year when button is clicked
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String getInfo = textField.getText();
+        getInfo = getInfo.replace("Enter date of birth in YYYY-MM-DD format: ", "");
+        LocalDate birthYear = LocalDate.parse(getInfo);
+        label.setText("Your age in years is: " + ageEquation(birthYear));
+    }
+}
