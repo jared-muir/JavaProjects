@@ -1,0 +1,130 @@
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+//this program will accept your first name, last name, address, city, and zip code
+
+//updated.. added comments for maintenance, added constructor, added get methods
+//added try/catch, added toString() for console output, added arraylist to store input
+
+public class Person {
+//added for better maintenance
+	private String firstName;
+	private String lastName;
+	private String address;
+	private String city;
+	private int zipCode;
+	
+//constructor added
+	public Person(String firstName, String lastName, String address, String city, int zipCode) {
+		this.address = address;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.city = city;
+		this.zipCode = zipCode;
+	}
+	
+	public static void addPerson(ArrayList<Person> list, Person person) {
+		list.add(person);
+		
+		person.firstName = firstName;
+		person.lastName = lastName;
+		person.address = address;
+		person.city = city;
+		person.zipCode = zipCode;
+	}
+	
+	public static String getFirstName(Scanner in) throws Exception {
+		System.out.println("Enter the first name: ");
+		String firstName = in.nextLine();
+		
+		if (firstName.isEmpty()) {
+			throw new Exception("You left the first name empty.");
+		}
+		return firstName;
+	}
+	
+	public static String getLastName(Scanner in) throws Exception {
+		System.out.println("Enter the last name: ");
+		String lastName = in.nextLine();
+		
+		if (lastName.isEmpty()) {
+			throw new Exception("You left the last name empty.");
+		}
+		return lastName;
+	}
+	
+	public static String getAddress(Scanner in) throws Exception {
+		System.out.println("Enter the address: ");
+		String address = in.nextLine();
+		
+		if (address.isEmpty()) {
+			throw new Exception("You left the address empty.");
+		}
+		return address;
+	}
+	
+	public static String getCity(Scanner in) throws Exception {
+		System.out.println("Enter the city: ");
+		String city = in.nextLine();
+		
+		if (city.isEmpty()) {
+			throw new Exception("You left the city empty.");
+		}
+		return city;
+	}
+	
+	public static int getZipCode(Scanner in) throws Exception {
+		System.out.println("Enter the zip code: ");
+		int zipCode = in.nextInt();
+		in.nextLine();
+		
+		if (zipCode == 0) {
+			throw new Exception("You left the zip code empty.");
+		}
+		return zipCode;
+	}
+	
+	public String toString() {
+		return("First Name: " + firstName+
+				"\nLast Name: " + lastName +
+				"\nAddress: " + address +
+				"\nCity: " + city +
+				"\nZip Code: " +zipCode +
+				"\n");
+	}
+	
+	public static void main (String[] args) {
+		Scanner in = new Scanner (System.in);
+		Scanner check = new Scanner(System.in);
+		
+		ArrayList <Person> list = new ArrayList<>();
+		String exit = null;
+		
+		System.out.println("To add a person...");
+		while (!"exit".equals(exit)) {
+		try {
+			String firstName = getFirstName(in);
+			String lastName = getLastName(in);
+			String address = getAddress(in);
+			String city = getCity(in);
+			int zipCode = getZipCode(in);
+			Person person = new Person(firstName, lastName, address, city, zipCode);
+			list.add(person);
+				
+		}catch (Exception excpt) {
+			System.out.println(excpt.getMessage());
+		}	
+		System.out.println("To add a person...\nEnter any key to continue. Enter 'exit' to quit.");
+		exit = check.nextLine();
+		} 
+			System.out.println("Person(s) added...");
+			for (int i = 0; i < list.size(); i++) {
+				Person curr = list.get(i);
+				System.out.println(curr);
+		} 
+		System.out.println("\nGoodbye.");
+		check.close();
+	}
+}
