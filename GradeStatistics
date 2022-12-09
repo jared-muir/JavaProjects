@@ -1,0 +1,56 @@
+package optionTwo;
+import java.util.Scanner;
+
+//this program prints grade statistics
+//the print includes the average of grades, the highest score, and the lowest score
+
+public class GradeStatistics_Update {
+
+//initializing the variables	
+	private static float sum = 0;
+	private static float grade = 0;
+	private static int count = 0;
+	private static int i = 0;
+	private static float maxSoFar = 0;
+	private static float average = 0;
+	private static float minSoFar = 0;
+	
+//start of main	
+	public static void main(String[] args) {
+		
+		Scanner in = new Scanner (System.in);
+		
+//user specifies how many students are being graded		
+		System.out.println("Enter the amount of students being graded today: ");
+		count = in.nextInt();
+	
+//user enters grade for amount of students		
+	for (i = 0; i < count; i++) {
+		System.out.println("Enter grade " + (i + 1) + ": ");
+		grade = in.nextFloat();
+			
+//this if statement gets the max grade		
+			if (i == 0) {
+				maxSoFar = grade;
+			}
+			else if (grade > maxSoFar) {
+				maxSoFar = grade;
+			}
+			
+//this if statement gets the minimum grade			
+			if (i == 0) {
+				minSoFar = grade;
+			}
+			else if (grade < minSoFar) {
+				minSoFar = grade;
+			}
+		sum += grade;
+		average = sum / count;
+		}
+
+//prints the results of the calculations	
+	System.out.println("The grade avereage is: " + average );
+	System.out.println("The largest number is: " + maxSoFar );
+	System.out.println("The smallest number is: " + minSoFar );
+	}
+}	
