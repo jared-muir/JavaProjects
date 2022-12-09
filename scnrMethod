@@ -1,0 +1,89 @@
+package optionTwo;
+import java.util.Scanner;
+import java.lang.System;
+
+public class scnrMethod_Upgrade {
+	
+//this program will accept three different words
+//the words go through a get method with exceptions
+//if all three words are input then the try/catch will indicate success
+//otherwise the program will throw an error and reprompt the user
+	
+	//start of main part to the code
+	public static void main(String[] args) {
+	
+		Scanner in = new Scanner(System.in);
+		String quit = null;
+		
+		//continues program until user enters 'exit'
+		while (!"exit".equals(quit)) {
+			
+			//checks three methods accepting scanner in as parameter
+			try {
+				String wordOne = getWordOne(in);
+				String wordTwo = getWordTwo(in);
+				String wordThree = getWordThree(in);
+				//prints success message if methods in try do not throw an exception
+				System.out.println("Success.");
+			
+			//throws error if program finds a problem
+			} catch (Exception excpt) {
+				//prints failure message if program catches an exception thrown
+				System.out.println("Failure.");
+				System.out.println(excpt.getMessage());
+			}
+			//prompts user to continue or exit
+			System.out.println("\nEnter any key to continue. Enter 'exit' to quit.");
+			quit = in.nextLine();
+		}
+	}
+		
+
+	//first method to accept first word input by user
+	public static String getWordOne(Scanner in) throws Exception {
+		String wordOne;
+		System.out.println("Enter first word: ");
+		wordOne = in.nextLine();
+		
+		//throws exception if the user does not enter any word
+		if (wordOne.isEmpty()) {
+			throw new Exception("You left the entry blank. Try again.\n");
+		}
+		
+		//returns scanner from user input to calling method
+		System.out.println("You entered: " + wordOne);
+		return wordOne;
+	}
+	
+	//second method to accept second word input by user
+	public static String getWordTwo(Scanner in) throws Exception {
+		String wordTwo;
+		System.out.println("\nEnter second word: ");
+		wordTwo = in.nextLine();
+		
+		//throws exception if the user does not enter any word
+		if (wordTwo.isEmpty()) {
+			throw new Exception("You left the entry blank. Try again.\n");
+		}
+		
+		//returns scanner from user input to calling method
+		System.out.println("You entered: " + wordTwo);
+		return wordTwo;
+	}
+	
+	//third method to accept third word input by user
+	public static String getWordThree(Scanner in) throws Exception {
+		String wordThree;
+		System.out.println("\nEnter third word: ");
+		wordThree = in.nextLine();
+		
+		//throws exception if the user does not enter any word
+		if (wordThree.isEmpty()) {
+			throw new Exception("You left the entry blank. Try again.\n");
+		}
+		
+		//returns scanner from user input to calling method
+		System.out.println("You entered: " + wordThree);
+		return wordThree;
+	}
+}
