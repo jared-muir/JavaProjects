@@ -1,0 +1,275 @@
+import java.awt.List;
+import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+//this program adds, deletes, updates, and displays home inventory
+//the program accepts address, city, state, zip code, model name, square feet, and sale status as valid user entry
+//the program prints the stored information to a text file when chosen by the user
+public class HomeInventory {
+	
+	private String address;
+	private String city;
+	private String state;
+	private int zipCode;
+	private String modelName;
+	private int squareFt;
+	private String saleStatus;
+	
+	
+//constructor method
+	public HomeInventory(String saleStatus, String modelName, String address, String city,
+			String state, int zipCode, int squareFt){	
+		this.saleStatus = saleStatus;
+		this.modelName = modelName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
+		this.squareFt = squareFt;
+	}
+
+	
+//creates menu option to select from	
+	public static void menuOption() {
+		Scanner in = new Scanner(System.in);
+		
+		String[] menuChoice = {
+				"\nSelect an option: ",
+				"1) Add a home",
+				"2) Delete a home",
+				"3) Update a home",
+				"4) Print home inventory",
+				"5) Print inventory to a file",
+				"6) Exit"
+		};
+		
+		for (int i = 0; i < menuChoice.length; i++) {
+			System.out.println(menuChoice[i]);
+		}
+	}
+	
+//prints to file
+	public static void printFile(ArrayList<HomeInventory> list) throws IOException {
+		FileOutputStream fileStream = null;
+		PrintWriter outFS = null;
+		fileStream = new FileOutputStream("myoutfile.txt");
+		outFS = new PrintWriter(fileStream);
+		outFS.println(list);
+		outFS.close();
+	}
+    
+//adding home to inventory	
+	public static void addHome(HomeInventory homes) {
+		list.add(homes);
+		
+		homes.modelName = modelName;
+		homes.saleStatus = saleStatus;
+		homes.address = address;
+		homes.city = city;
+		homes.state = state;
+		homes.zipCode = zipCode;
+		homes.squareFt = squareFt;
+	}
+
+//indexing homes from inventory
+	public static int getIndexOf(ArrayList<HomeInventory> list, String address) {
+	    int pos = 0;
+
+	    for(HomeInventory homes : list) {
+	        if(address.equalsIgnoreCase(homes.address))
+	            return pos;
+	        pos++;
+	    }
+
+	    return -1;
+	}
+
+//removing homes from inventory	
+	public static void removeHome(ArrayList<HomeInventory> list, int pos) {
+		list.remove(pos);
+		System.out.println("You have successfully deleted the home.");
+	}
+
+//start of get methods for tracking home information	
+	public static String getAddress(Scanner in) throws Exception {
+		System.out.println("Enter the address: ");
+		String address = in.nextLine();
+		
+		if(address == null) {
+			throw new Exception("The address was input wrong.");
+		}
+		return address;
+	}
+	
+	public static String getCity(Scanner in) throws Exception {
+		System.out.println("Enter the city: ");
+		String city = in.nextLine();
+		
+		if(city == null) {
+			throw new Exception("The city was input wrong.");
+		}
+		return city;
+	}
+	
+	public static String getState(Scanner in) throws Exception {
+		System.out.println("Enter the state: ");
+		String state = in.nextLine();
+		
+		if(state == null) {
+			throw new Exception("The state was input wrong.");
+		}
+		return state;
+	}
+	
+	public static int getZipCode(Scanner in) throws Exception {
+		System.out.println("Enter the zip code: ");
+		int zipCode = in.nextInt();
+		in.nextLine();
+		
+		if(zipCode == 0) {
+			throw new Exception("The zip code was input wrong.");
+		}
+		return zipCode;
+	}
+	
+	public static int getSquareFt(Scanner in) throws Exception {
+		System.out.println("Enter the square feet: ");
+		int squareFt = in.nextInt();
+		in.nextLine();
+		
+		if(squareFt == 0) {
+			throw new Exception("The square feet was input wrong.");
+		}
+		return squareFt;
+	}
+	
+	public static String getSaleStatus(Scanner in) throws Exception {
+		System.out.println("Enter the sale status: ");
+		String saleStatus = in.nextLine();
+		
+		if(saleStatus == null) {
+			throw new Exception("The sale status was input wrong.");
+		}
+		return saleStatus;
+	}
+	
+	public static String getModelName(Scanner in) throws Exception {
+		System.out.println("Enter the home model: ");
+		String modelName = in.nextLine();
+		
+		if(modelName == null) {
+			throw new Exception("The model name was input wrong.");
+		}
+		return modelName;
+	}
+//end of get methods for tracking home information	
+
+//prints the input of the user rather than memory location
+	public String toString() {
+		return("Sale Status: " + saleStatus+
+				"\nHome Model: " + modelName +
+				"\nAddress: " + address +
+				"\nCity: " + city +
+				"\nState: " + state +
+				"\nZip Code: " +zipCode +
+				"\nSquare Feet: " + squareFt +
+				"\n");
+	}
+	
+	public static void main (String[] args) throws IOException {
+		Scanner in = new Scanner (System.in);
+		Scanner check = new Scanner (System.in);
+		String exit = null;
+		ArrayList<HomeInventory> list = new ArrayList<>();
+		
+		menuOption();
+		while (!"exit".equals(exit)) { //will allow user to choose which option to complete
+				int choice = check.nextInt();
+				System.out.println("\nYou selected option #" + choice + "\n");
+					
+					//add home
+					if (choice == 1) {
+						try {
+							System.out.println("To add a home..");
+							String saleStatus = getSaleStatus(in);
+							String modelName = getModelName(in);
+							String address = getAddress(in);
+							String city = getCity(in);
+							String state = getState(in);
+							int zipCode = getZipCode(in);
+							int squareFt = getSquareFt(in);
+							//creates new homes arguments to pass into arraylist named 'list'
+							HomeInventory homes = new HomeInventory(saleStatus, modelName, address, city,
+									state, zipCode, squareFt);
+							//adds home into list
+							list.add(homes);
+							System.out.println("\nAdded Successfully.");
+						} catch (Exception excpt) {
+						System.out.println(excpt.getMessage());
+						}
+
+					//delete home	
+					} else if (choice == 2) {
+						try {
+							System.out.println("To delete a home..");
+							String address = getAddress(in);
+							System.out.println("Found.");
+							int pos = getIndexOf(list ,address);
+							removeHome(list, pos);
+							System.out.println("Successful.");
+						} catch (Exception excpt) {
+							System.out.println(excpt.getMessage());
+						}
+						
+					//update all aspects of home		
+					} else if (choice == 3) {
+						System.out.println("To update a home..");
+						try {
+							String address = getAddress(in);
+							System.out.println("Found.");
+							int pos = getIndexOf(list, address);
+							String saleStatus = getSaleStatus(in);
+							String modelName = getModelName(in);
+							address = getAddress(in);
+							String city = getCity(in);
+							String state = getState(in);
+							int zipCode = getZipCode(in);
+							int squareFt = getSquareFt(in);
+							list.set(pos, new HomeInventory(saleStatus, modelName, address, city,
+									state, zipCode, squareFt));
+							System.out.println("Successful.");
+						} catch (Exception excpt) {
+							System.out.println(excpt.getMessage());
+						}
+					
+					//print home inventory	
+					} else if (choice == 4) {
+						for (int i = 0; i < list.size(); i++) {
+							HomeInventory curr = list.get(i);
+							System.out.println(curr);
+						}
+					
+					//print inventory to a file
+					} else if (choice == 5) {
+						System.out.println("Printing to file..");
+						try {
+						printFile(list);
+						System.out.println("Successful. Look for 'myoutfile'");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					//exit the program
+					} else if (choice == 6) {
+						System.out.println("Goodbye");
+						System.exit(0);
+						}
+		
+		//choose from menu options			
+		menuOption();
+		exit = check.nextLine();
+		}//end of program
+	}
+}
